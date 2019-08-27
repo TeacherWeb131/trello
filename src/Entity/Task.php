@@ -67,9 +67,9 @@ class Task
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="task")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="tasks")
      */
-    private $user;
+    private $users;
 
     /**
      * Constructor
@@ -77,6 +77,7 @@ class Task
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,15 +148,15 @@ class Task
     /**
      * @return Collection|User[]
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function addUser(User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
             $user->addTask($this);
         }
 
@@ -164,8 +165,8 @@ class Task
 
     public function removeUser(User $user): self
     {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
             $user->removeTask($this);
         }
 

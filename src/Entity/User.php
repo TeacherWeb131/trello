@@ -89,7 +89,7 @@ class User
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Project", inversedBy="user")
+     * @ORM\ManyToMany(targetEntity="Project", inversedBy="users")
      * @ORM\JoinTable(name="user_project",
      *   joinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -99,12 +99,12 @@ class User
      *   }
      * )
      */
-    private $project;
+    private $projects;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Task", inversedBy="user")
+     * @ORM\ManyToMany(targetEntity="Task", inversedBy="users")
      * @ORM\JoinTable(name="user_task",
      *   joinColumns={
      *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -114,7 +114,7 @@ class User
      *   }
      * )
      */
-    private $task;
+    private $tasks;
 
     /**
      * Constructor
@@ -123,6 +123,8 @@ class User
     {
         $this->project = new \Doctrine\Common\Collections\ArrayCollection();
         $this->task = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,15 +243,15 @@ class User
     /**
      * @return Collection|Project[]
      */
-    public function getProject(): Collection
+    public function getProjects(): Collection
     {
-        return $this->project;
+        return $this->projects;
     }
 
     public function addProject(Project $project): self
     {
-        if (!$this->project->contains($project)) {
-            $this->project[] = $project;
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
         }
 
         return $this;
@@ -257,8 +259,8 @@ class User
 
     public function removeProject(Project $project): self
     {
-        if ($this->project->contains($project)) {
-            $this->project->removeElement($project);
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
         }
 
         return $this;
@@ -267,15 +269,15 @@ class User
     /**
      * @return Collection|Task[]
      */
-    public function getTask(): Collection
+    public function getTasks(): Collection
     {
-        return $this->task;
+        return $this->tasks;
     }
 
     public function addTask(Task $task): self
     {
-        if (!$this->task->contains($task)) {
-            $this->task[] = $task;
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
         }
 
         return $this;
@@ -283,8 +285,8 @@ class User
 
     public function removeTask(Task $task): self
     {
-        if ($this->task->contains($task)) {
-            $this->task->removeElement($task);
+        if ($this->tasks->contains($task)) {
+            $this->tasks->removeElement($task);
         }
 
         return $this;

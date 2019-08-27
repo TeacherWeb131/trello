@@ -43,9 +43,9 @@ class Project
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="project")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="projects")
      */
-    private $user;
+    private $users;
 
     /**
      * Constructor
@@ -53,6 +53,7 @@ class Project
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,15 +88,15 @@ class Project
     /**
      * @return Collection|User[]
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function addUser(User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
             $user->addProject($this);
         }
 
@@ -104,8 +105,8 @@ class Project
 
     public function removeUser(User $user): self
     {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
             $user->removeProject($this);
         }
 
